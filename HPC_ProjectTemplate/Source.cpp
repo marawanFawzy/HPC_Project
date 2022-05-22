@@ -56,18 +56,18 @@ void createImage(int* image, int width, int height, int index)
 {
 	Bitmap MyNewImage(width, height);
 
-	//created at mask of 45*45 .... not 3*3
-	for (int i = 43; i < MyNewImage.Height - 43; i++)
+	
+	for (int i = 1; i < MyNewImage.Height - 1; i++)
 	{
-		for (int j = 43; j < MyNewImage.Width - 43; j++)
+		for (int j = 1; j < MyNewImage.Width - 1; j++)
 		{
 			int res = 0;
 			//TODO remember bonus by changing 2025 -> generic 
-			for (int k = 0; k < 2025; k++)
+			for (int k = 0; k < 9; k++)
 			{
-				res = res + (image[(((i - 43) + (int)(k / 45)) * width) + ((j - 43) + (k % 45))]);
+				res = res + (image[(((i - 1) + (int)(k / 3)) * width) + ((j - 1) + (k % 3))]);
 			}
-			res = res / 2025;
+			res = res / 9;
 
 			Color c = Color::FromArgb(res, res, res);
 			MyNewImage.SetPixel(j, i, c);
