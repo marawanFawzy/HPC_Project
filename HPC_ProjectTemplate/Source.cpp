@@ -23,7 +23,7 @@ int* inputImage(int* w, int* h, String^ imagePath) //put the size of image in w 
 	//*********************************************************Read Image and save it to local arrayss*************************	
 	//Read Image and save it to local arrayss
 	Bitmap BM(imagePath);
-	cout << BM.Width << endl << BM.Height;
+	//cout << BM.Width << endl << BM.Height;
 	OriginalImageWidth = BM.Width;
 	OriginalImageHeight = BM.Height;
 	*w = BM.Width;
@@ -99,19 +99,20 @@ int main()
 
 		String^ imagePath;
 		string img;
-		img = "..//Data//Input//" + var + ".png";
-
-		imagePath = marshal_as<String^>(img);
-		int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
-
-
 		start_s = clock();
-		createImage(imageData, ImageWidth, ImageHeight, 0);
-		stop_s = clock();
-		TotalTime += (stop_s - start_s) / double(CLOCKS_PER_SEC) * 1000;
-		cout << "time: " << TotalTime << endl;
-
-		free(imageData);
+		img = "..//Data//Input//" + var + ".png";
+		imagePath = marshal_as<String^>(img);
+		
+		for (int i = 0; i < 10; i++)
+		{
+			int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
+			createImage(imageData, ImageWidth, ImageHeight, i);
+			stop_s = clock();
+			TotalTime += (stop_s - start_s) / double(CLOCKS_PER_SEC) * 1000;
+			cout << "time: " << TotalTime << endl;
+			free(imageData);
+		}
+		
 	}
 	return 0;
 
