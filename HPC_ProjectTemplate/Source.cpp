@@ -56,23 +56,31 @@ void createImage(int* image, int width, int height, int index)
 {
 	Bitmap MyNewImage(width, height);
 
-	
-	for (int i = 1; i < MyNewImage.Height - 1; i++)
+
+	for (int k = 0; k < width*height; k++)
 	{
-		for (int j = 1; j < MyNewImage.Width - 1; j++)
+		int res = 0;
+		int y = k / MyNewImage.Width;
+		int x = k % MyNewImage.Width;
+		int x_mover = -1;
+		int y_mover = -1;
+		for (int i = 0; i < 3; i++)
 		{
-			int res = 0;
-			//TODO remember bonus by changing 2025 -> generic 
-			for (int k = 0; k < 9; k++)
+			for (int j = 0; j < 3; j++)
 			{
-				res = res + (image[(((i - 1) + (int)(k / 3)) * width) + ((j - 1) + (k % 3))]);
+				if ((y + y_mover < 0) || (x + x_mover < 0) || (y + y_mover >= MyNewImage.Height) || (x + x_mover >= MyNewImage.Width))
+				{
+					res = res + 0;
+				}
+				else res += image[(y + y_mover) * width + (x + x_mover)];
+				x_mover++;
 			}
-			res = res / 9;
-
-			Color c = Color::FromArgb(res, res, res);
-			MyNewImage.SetPixel(j, i, c);
-
+			x_mover = -1;
+			y_mover++;
 		}
+		res = res / 9;
+		Color c = Color::FromArgb(res, res, res);
+		MyNewImage.SetPixel(x, y, c);
 	}
 	MyNewImage.Save("..//Data//Output//outputRes" + index + ".png");
 	cout << endl << "result Image Saved " << index << endl;
