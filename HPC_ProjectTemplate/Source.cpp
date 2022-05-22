@@ -45,11 +45,12 @@ int* inputImage(int* w, int* h, String^ imagePath) //put the size of image in w 
 	}
 	return input;
 }
+int start_s, stop_s, TotalTime = 0;
 void createImage(int* image, int width, int height, int index)
 {
-	int start_s, stop_s, TotalTime = 0;
-	start_s = clock();
-	MPI_Init(NULL, NULL);
+	
+	
+	
 	int size, rank;
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -140,7 +141,7 @@ void createImage(int* image, int width, int height, int index)
 		}
 		MPI_Send(imageData, MyNewImage.Width * MyNewImage.Height, MPI_INT, 0, 0, MPI_COMM_WORLD);
 	}
-	MPI_Finalize();
+	
 }
 
 
@@ -149,10 +150,17 @@ int main()
 	int ImageWidth, ImageHeight;
 	String^ imagePath;
 	string img;
-	img = "..//Data//Input//N.png";
+	img = "..//Data//Input//5N.png";
 	imagePath = marshal_as<String^>(img);
 	int* imageData = inputImage(&ImageWidth, &ImageHeight, imagePath);
-	createImage(imageData, ImageWidth, ImageHeight, 0);
+	start_s = clock();
+	MPI_Init(NULL, NULL);
+	for (int i = 0; i < 10; i++)
+	{
+		MPI_Barrier(MPI_COMM_WORLD);
+		createImage(imageData, ImageWidth, ImageHeight, i);
+	}
+	MPI_Finalize();
 	free(imageData);
 	return 0;
 }
