@@ -48,9 +48,6 @@ int* inputImage(int* w, int* h, String^ imagePath) //put the size of image in w 
 int start_s, stop_s, TotalTime = 0;
 void createImage(int* image, int width, int height, int index)
 {
-
-
-
 	int size, rank;
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
